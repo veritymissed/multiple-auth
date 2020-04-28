@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Shopping platform stack" />
+  <title>Single Sign On Platform</title>
+
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+  <!-- fontawsome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" charset="utf-8"></script>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <!-- <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div> -->
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Single Sign On Platform</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container mt-3" style="width:30%">
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">登入</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">註冊</a>
+      </li>
+
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+        <form name="loginForm" id="loginForm">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" name="email" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" name="password">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">登入</button>
+        </form>
+      </div>
+
+      <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+        <form name="registerForm" id="registerForm">
+          <div class="form-group">
+            <label for="exampleInputName">Name</label>
+            <input type="text" class="form-control" name="username">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" name="email" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" name="password">
+            <small id="emailHelp" class="form-text text-muted">Password must be longer than 8 characters.</small>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password repeat</label>
+            <input type="password" class="form-control" name="passwordRe">
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">註冊</button>
+
+          <a class="btn btn-info btn-block" href="/login/facebook">Login with Facebook</a>
+          <a class="btn btn-info btn-block" href="/login/google">Login with Google</a>
+        </form>
+      </div>
+    </div>
+
+
+
+
+    <div class="row mt-3" id="userList">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Email</th>
+            <th scope="col">Updated</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"></th>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+<script src="/javascripts/auth.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+var registerForm = document.querySelector('form[name=registerForm]')
+registerForm.onsubmit = function(e) {
+  e.preventDefault()
+  var username = $(registerForm).find('input[name=username]').val()
+  var email = $(registerForm).find('input[name=email]').val()
+  var password = $(registerForm).find('input[name=password]').val()
+  var passwordRe = $(registerForm).find('input[name=passwordRe]').val()
+
+  fetch('/api/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({username, email, password, passwordRe})
+  })
+  .then((response) => {
+    return response.json()
+  })
+  .then((res) => {
+    console.log("res", res);
+    if (res.length >= 0) {
+      $(registerForm).find('input[name=username]').val('')
+      $(registerForm).find('input[name=email]').val('')
+      $(registerForm).find('input[name=password]').val('')
+      $(registerForm).find('input[name=passwordRe]').val('')
+      renderUserListHTML(res)
+    }
+  })
+  .catch((err) => {
+    console.error("err", err);
+    // alert(err)
+  })
+}
+
+
+var loginForm = document.querySelector('form[name=loginForm]')
+loginForm.onsubmit = function(e) {
+  e.preventDefault()
+  var email = $(loginForm).find('input[name=email]').val()
+  var password = $(loginForm).find('input[name=password]').val()
+
+  fetch('/api/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({email, password})
+  })
+  .then((response) => {
+    console.log("response", response);
+    if (response) {
+      return response.json()
+    }
+    else{
+      return null
+    }
+  })
+  .then((res) => {
+    console.log("res", res);
+  })
+  .catch((err) => {
+    console.error("err", err);
+  })
+}
+
+</script>
+
+</html>
