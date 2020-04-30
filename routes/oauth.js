@@ -29,10 +29,13 @@ passport.use(new FacebookStrategy({
     // console.log("Facebook user profile", profile);
     try {
       var userDataObj = profile._json
-      console.log("Facebook userDataObj", userDataObj);
+      // console.log("2. Facebook userDataObj", userDataObj);
       var existed_user = await User.findOne({email: userDataObj.email})
       if (existed_user) {
-        if(existed_user.facebookId === userDataObj.id) {console.log("Login with facebook success!"); return done(null, existed_user)}
+        if (existed_user.facebookId === userDataObj.id) {
+          console.log("Login with facebook success!");
+          return done(null, existed_user)
+        }
         else throw(createError(403, "Email has been registered !"))
       }
       else{
@@ -72,10 +75,13 @@ passport.use(new GoogleStrategy({
     // console.log("profile", profile);
     try {
       var userDataObj = profile._json
-      console.log("2. Google userDataObj", userDataObj);
+      // console.log("2. Google userDataObj", userDataObj);
       var existed_user = await User.findOne({email: userDataObj.email});
       if (existed_user) {
-        if (existed_user.googleId === userDataObj.sub) {console.log("Login with google success!");return done(null, existed_user)}
+        if (existed_user.googleId === userDataObj.sub) {
+          console.log("Login with google success!");
+          return done(null, existed_user)
+        }
         else throw createError(403, "Email has been registered !");
       }
       else{
@@ -96,9 +102,7 @@ passport.use(new GoogleStrategy({
         }
         await mailer.sendMail(msg)
 
-        return done(null, newUserObj)
-        // console.log("accessToken", accessToken);
-        // return done(null, profile)
+        return done(null, newUser)
       }
     } catch (e) {
       return done(e, false)
@@ -107,14 +111,12 @@ passport.use(new GoogleStrategy({
 ));
 //
 passport.serializeUser(function(user, done) {
-  // console.log("3. serializeUser");
-  console.log("3. serializeUser: user", user);
+  // console.log("3. serializeUser: user", user);
   done(null, user);
 });
 
 passport.deserializeUser(function(obj, done) {
-  console.log("1. deserializeUser");
-  // console.log("deserializeUser: obj", obj);
+  // console.log("1. deserializeUser: obj", obj);
   done(null, obj);
 });
 
@@ -132,8 +134,8 @@ router.get('/oauth/facebook/callback',
     failureRedirect: '/login'
   }),
   function(req, res) {
-    // req.session.provider = 'facebook';
-    res.redirect('/');
+    res.json({token: req.user._id})
+    // res.redirect('/');
   });
 
 //
@@ -145,7 +147,8 @@ router.get('/oauth/google/callback',
     failureRedirect: '/login'
   }),
   function(req, res) {
-    res.redirect('/');
+    res.json({token: req.user._id})
+    // res.redirect('/');
   });
 //
 router.get('/oauth/logout',
