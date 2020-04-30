@@ -5,12 +5,9 @@ const router = express.Router()
 // User data model and mongoose connections were configured in models/
 const User = require('../models').User
 
-// Mailgun related configures is confiured in this library lib/
 const mailer = require('../lib/mailer')
-
 const emailValidator = require('../lib/emailValidator')
 
-// Get users
 router.get('/users', async (req, res) => {
   try {
     var users = await User.find({})
@@ -41,7 +38,6 @@ router.delete('/user/:user_id', async (req, res) => {
   }
 })
 
-// User login
 router.post('/login', async (req, res) => {
   try {
     var form = req.body
@@ -67,7 +63,6 @@ router.post('/login', async (req, res) => {
   }
 })
 
-// User register
 router.post('/register', async (req, res) => {
   try {
     var form = req.body

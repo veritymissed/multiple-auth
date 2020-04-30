@@ -9,10 +9,9 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy
 
 const User = require('../models').User
 
-// Mailgun related configures is confiured in this library lib/
 const mailer = require('../lib/mailer')
 
-// Configure the Facebook strategy for use by Passport.
+// Step 2 of Facebook Oauth via passport - FacebookStrategy
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_CLIENT_SECRET,
@@ -55,7 +54,7 @@ async function (accessToken, refreshToken, profile, done) {
 }
 ))
 
-// Configure the Google strategy for use by Passport.
+// Step 2 of Google Oauth via passport - GoogleStrategy
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
