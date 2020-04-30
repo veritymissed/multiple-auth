@@ -46,9 +46,9 @@ passport.use(new FacebookStrategy({
         await newUser.save()
 
         const msg = {
-          from: 'SSO auth platform <auth@sandbox0040a7cdf8614a9aaad8ea35b3efb452.mailgun.org>',
+          from: 'multiple-auth platform <auth@sandbox0040a7cdf8614a9aaad8ea35b3efb452.mailgun.org>',
           to: newUserObj.email,
-          subject: `[SSO auth] Register with Facebook oauth 2.0 success !`,
+          subject: `[multiple-auth] Register with Facebook oauth 2.0 success !`,
           text: `Hi ${newUserObj.name}, you just register with ${newUserObj.email} from Facebook oauth 2.0 success !`
         }
         await mailer.sendMail(msg)
@@ -89,9 +89,9 @@ passport.use(new GoogleStrategy({
         await newUser.save()
 
         const msg = {
-          from: 'SSO auth platform <auth@sandbox0040a7cdf8614a9aaad8ea35b3efb452.mailgun.org>',
+          from: 'multiple-auth platform <auth@sandbox0040a7cdf8614a9aaad8ea35b3efb452.mailgun.org>',
           to: newUserObj.email,
-          subject: `[SSO auth] Register with Google oauth 2.0 success !`,
+          subject: `[multiple-auth] Register with Google oauth 2.0 success !`,
           text: `Hi ${newUserObj.name}, you just register with ${newUserObj.email} from Google oauth 2.0 success !`
         }
         await mailer.sendMail(msg)
@@ -145,9 +145,6 @@ router.get('/oauth/google/callback',
     failureRedirect: '/login'
   }),
   function(req, res) {
-    // req.session.provider = 'google';
-    // console.log("req.query", req.query);
-    // var authorization_code = req.query.code;
     res.redirect('/');
   });
 //
@@ -159,8 +156,8 @@ router.get('/oauth/logout',
   });
 
 router.use(function(err, req, res, next) {
-  console.log("err", err);
-  var statusCode = err.status || 500
+  console.error(err.stack);
+  var statusCode = err.status || 500;
   res.status(statusCode).send({ error: err.message });
 })
 

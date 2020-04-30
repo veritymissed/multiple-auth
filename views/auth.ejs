@@ -28,7 +28,7 @@
   </div> -->
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Single Sign On Platform</a>
+    <a class="navbar-brand" href="/">multiple-auth Platform</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -118,6 +118,16 @@
       </table>
     </div>
   </div>
+  <div class="container mt-3" style="width:50%">
+    <div class="row">
+      <h4>Response JSON:</h4>
+      <textarea name="" id="myTextarea" rows="10"
+      style="width: 100%;
+  min-height: 2rem;
+  font-size: 0.8rem;
+  line-height: 1.2;"></textarea>
+    </div>
+  </div>
 </body>
 <script src="/javascripts/auth.js" charset="utf-8"></script>
 <script type="text/javascript">
@@ -138,17 +148,20 @@ registerForm.onsubmit = function(e) {
     body: JSON.stringify({username, email, password, passwordRe})
   })
   .then((response) => {
-    return response.json()
+    if (response) return response.json()
+    else return null
   })
   .then((res) => {
     console.log("res", res);
-    if (res.length >= 0) {
-      $(registerForm).find('input[name=username]').val('')
-      $(registerForm).find('input[name=email]').val('')
-      $(registerForm).find('input[name=password]').val('')
-      $(registerForm).find('input[name=passwordRe]').val('')
-      renderUserListHTML(res)
-    }
+    $(registerForm).find('input[name=username]').val('')
+    $(registerForm).find('input[name=email]').val('')
+    $(registerForm).find('input[name=password]').val('')
+    $(registerForm).find('input[name=passwordRe]').val('')
+    // if (res.length >= 0) {
+    //   renderUserListHTML(res)
+    // }
+    var textedJson = JSON.stringify(res, undefined, 4);
+    $('#myTextarea').text(textedJson);
   })
   .catch((err) => {
     console.error("err", err);
@@ -171,16 +184,13 @@ loginForm.onsubmit = function(e) {
     body: JSON.stringify({email, password})
   })
   .then((response) => {
-    console.log("response", response);
-    if (response) {
-      return response.json()
-    }
-    else{
-      return null
-    }
+    if (response) return response.json()
+    else return null
   })
   .then((res) => {
     console.log("res", res);
+    var textedJson = JSON.stringify(res, undefined, 4);
+    $('#myTextarea').text(textedJson);
   })
   .catch((err) => {
     console.error("err", err);

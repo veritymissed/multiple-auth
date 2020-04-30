@@ -40,6 +40,11 @@ MAILGUN_PUBLIC_KEY=YOUR_MAILGUN_PUBLIC_KEY
 MAILGUN_DOMAIN=YOUR_MAILGUN_DOMAIN
 ```
 
+## DB設定
+
+- 安裝並跑起`MongoDB`, `PORT`為27017
+- 安裝並跑起`redis-server`, `PORT`為6379
+
 ## 安裝方式
 需安裝`NodeJS 12`
 

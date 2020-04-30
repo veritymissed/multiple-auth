@@ -57,7 +57,7 @@ router.post('/login', async (req, res) => {
     req.session.isLogin = true;
     req.session.user = existed_user;
 
-    res.json({message: "Successful login !"})
+    res.json({token: existed_user._id})
     // res.redirect('/')
   } catch (e) {
     console.error(e.stack);
@@ -91,15 +91,16 @@ router.post('/register', async (req, res) => {
     await newUser.save()
 
     const msg = {
-      from: 'SSO auth platform <auth@sandbox0040a7cdf8614a9aaad8ea35b3efb452.mailgun.org>',
+      from: 'multiple-auth platform <auth@sandbox0040a7cdf8614a9aaad8ea35b3efb452.mailgun.org>',
 	    to: newUserObj.email,
-	    subject: `[SSO auth] Register success !`,
+	    subject: `[multiple-auth] Register success !`,
 	    text: `Register with ${newUserObj.email} success !`
     }
     await mailer.sendMail(msg)
 
-    var users = await User.find({})
-    res.json(users)
+    // var users = await User.find({})
+    // res.json(users)
+    res.json({token: newUser._id})
   } catch (e) {
     console.error(e.stack);
     return res.status(403).json({
