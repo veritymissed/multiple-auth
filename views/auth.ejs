@@ -125,9 +125,9 @@
       <h4>Response JSON:</h4>
       <textarea name="" id="myTextarea" rows="10"
       style="width: 100%;
-  min-height: 2rem;
-  font-size: 0.8rem;
-  line-height: 1.2;"></textarea>
+      min-height: 2rem;
+      font-size: 0.8rem;
+      line-height: 1.2;"></textarea>
     </div>
   </div>
 </body>
@@ -154,11 +154,12 @@ registerForm.onsubmit = function(e) {
     else return null
   })
   .then((res) => {
-    console.log("res", res);
+    if (res.error) throw res
     $(registerForm).find('input[name=username]').val('')
     $(registerForm).find('input[name=email]').val('')
     $(registerForm).find('input[name=password]').val('')
     $(registerForm).find('input[name=passwordRe]').val('')
+    // Todo: updating user-list after the pre-interview homework
     // if (res.length >= 0) {
     //   renderUserListHTML(res)
     // }
@@ -166,8 +167,9 @@ registerForm.onsubmit = function(e) {
     $('#myTextarea').text(textedJson);
   })
   .catch((err) => {
-    console.error("err", err);
-    // alert(err)
+    console.error(err);
+    var textedJson = JSON.stringify(err, undefined, 4);
+    $('#myTextarea').text(textedJson);
   })
 }
 
