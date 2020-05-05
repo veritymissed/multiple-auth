@@ -28,14 +28,32 @@
   </div> -->
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">multiple-auth Platform</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-      </ul>
-    </div>
+    <a class="navbar-brand mr-auto" href="/">Multiple-auth Platform</a>
+    <ul class="navbar-nav">
+      <% if(isLogin){%>
+        <li class="nav-item">
+          <a class="nav-link" href="/user-management">
+            <!-- <img src="/images/blank-profile-picture.png" class="mr-3 align-self-center" alt="..." style="height: 2em;"> -->
+            <img src="<%= userAvatarUrl %>" class="mr-3 align-self-center" alt="..." style="height: 2em;">
+
+            <span class="navbar-text">
+              <%= userEmail %>
+            </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/api/logout">
+            <span class="navbar-text">Logout</span>
+          </a>
+        </li>
+      <% } else { %>
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            <span class="navbar-text">SignUp/Login</span>
+          </a>
+        </li>
+      <% } %>
+    </ul>
   </nav>
 
   <div class="container mt-3" style="width:30%">
