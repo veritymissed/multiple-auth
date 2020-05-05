@@ -39,18 +39,13 @@ app.use(express.static(path.join(__dirname, './public')))
 // });
 
 app.use('/', function (req, res, next) {
-  try {
-    if (req.session.user) {
-      res.locals.isLogin = req.session.isLogin
-      res.locals.user = req.session.user || {}
-    }
-    return next()
-  } catch (e) {
-    next(e)
+  app.locals = {
+    userEmail: req.session.user ? req.session.user.email : 'no-one@mail.com',
+    userAvatarUrl: req.session.user ? req.session.user.avatarUrl : '/images/blank-profile-picture.png',
+    isLogin: req.session.isLogin
   }
+  next()
 })
-//
-
 var routes = require('./routes')
 app.use('/', routes)
 var oauth = require('./routes/oauth')

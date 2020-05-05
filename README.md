@@ -4,7 +4,7 @@
 ## 描述
 實作一個註冊/登入的頁面與RESTful server，使用者可以直接用email註冊，或是使用其他驗證提供者的服務。
 
-__目前供面試作業使用，http response皆設為json格式__
+__目前http response暫時為json格式__
 
 Demo page : https://auth-verity.site
 
