@@ -33,7 +33,8 @@ async function (accessToken, refreshToken, profile, done) {
         email: userDataObj.email,
         name: userDataObj.name,
         facebookId: userDataObj.id,
-        coupon: ['coupon1']
+        coupon: ['coupon1'],
+        avatarUrl: profile.photos[0].value
       }
       var newUser = new User(newUserObj)
       await newUser.save()
@@ -74,7 +75,8 @@ async function (accessToken, refreshToken, profile, done) {
         email: userDataObj.email,
         name: userDataObj.name,
         googleId: userDataObj.sub,
-        coupon: ['coupon1']
+        coupon: ['coupon1'],
+        avatarUrl: userDataObj.picture
       }
       var newUser = new User(newUserObj)
       await newUser.save()
@@ -117,10 +119,11 @@ router.get('/oauth/facebook/callback',
   passport.authenticate('facebook', {
     failureRedirect: '/login'
   }),
-  function (req, res) {
-    res.json({ token: req.user._id })
-    // Todo: rediect to root after the pre-interview homework
-    // res.redirect('/');
+  async function (req, res) {
+    req.session.isLogin = true
+    req.session.user = req.user
+    await req.session.save()
+    res.redirect('/')
   })
 
 router.get('/login/google', passport.authenticate('google', {
@@ -130,10 +133,11 @@ router.get('/oauth/google/callback',
   passport.authenticate('google', {
     failureRedirect: '/login'
   }),
-  function (req, res) {
-    res.json({ token: req.user._id })
-    // Todo: rediect to root after the pre-interview homework
-    // res.redirect('/');
+  async function (req, res) {
+    req.session.isLogin = true
+    req.session.user = req.user
+    await req.session.save()
+    res.redirect('/')
   })
 
 router.use(function (err, req, res, next) {
