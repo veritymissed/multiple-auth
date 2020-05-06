@@ -86,7 +86,7 @@ router.post('/register', async (req, res) => {
     await newUser.save()
 
     const msg = {
-      from: 'multiple-auth platform <auth@sandbox0040a7cdf8614a9aaad8ea35b3efb452.mailgun.org>',
+      from: `multiple-auth platform <${process.env.MAILGUN_DOMAIN}>`,
       to: newUserObj.email,
       subject: '[multiple-auth] Register success !',
       text: `Register with ${newUserObj.email} success !`

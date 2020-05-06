@@ -39,7 +39,7 @@ async function (accessToken, refreshToken, profile, done) {
       await newUser.save()
 
       const msg = {
-        from: 'multiple-auth platform <auth@sandbox0040a7cdf8614a9aaad8ea35b3efb452.mailgun.org>',
+        from: `multiple-auth platform <mailer@${process.env.MAILGUN_DOMAIN}>`,
         to: newUserObj.email,
         subject: '[multiple-auth] Register with Facebook oauth 2.0 success !',
         text: `Hi ${newUserObj.name}, you just register with ${newUserObj.email} from Facebook oauth 2.0 success !`
@@ -80,7 +80,7 @@ async function (accessToken, refreshToken, profile, done) {
       await newUser.save()
 
       const msg = {
-        from: 'multiple-auth platform <auth@sandbox0040a7cdf8614a9aaad8ea35b3efb452.mailgun.org>',
+        from: `multiple-auth platform <mailer@${process.env.MAILGUN_DOMAIN}>`,
         to: newUserObj.email,
         subject: '[multiple-auth] Register with Google oauth 2.0 success !',
         text: `Hi ${newUserObj.name}, you just register with ${newUserObj.email} from Google oauth 2.0 success !`
