@@ -9,7 +9,8 @@ var userSchema = new Schema({
   archived: { type: Boolean, default: false },
   googleId: String,
   facebookId: String,
-  coupon: Array
+  coupon: Array,
+  avatarUrl: String
 })
 
 module.exports = function (conn) {
