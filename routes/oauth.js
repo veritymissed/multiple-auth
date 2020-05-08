@@ -6,6 +6,7 @@ require('dotenv').config()
 const passport = require('passport')
 const FacebookStrategy = require('passport-facebook').Strategy
 const GoogleStrategy = require('passport-google-oauth20').Strategy
+const TwitterStrategy = require('passport-twitter').Strategy
 
 const User = require('../models').User
 
@@ -97,6 +98,47 @@ async function (accessToken, refreshToken, profile, done) {
 }
 ))
 
+passport.use(new TwitterStrategy({
+  consumerKey: process.env.TWITTER_CONSUMER_KEY,
+  consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+  callbackURL: `${process.env.APP_URL}/oauth/twitter/callback`,
+  proxy: true
+},
+async function (token, tokenSecret, profile, done) {
+  try {
+    console.log('Twitter user profile', profile)
+    var userDataObj = profile._json
+    var existedUser = await User.findOne({ email: userDataObj.email })
+    if (existedUser) {
+      if (existedUser.twitterId === userDataObj.id) {
+        console.log('Login with twitter success!')
+        return done(null, existedUser)
+      } else throw createError(403, 'Email has been registered !')
+    } else {
+      var newUserObj = {
+        email: userDataObj.email,
+        name: userDataObj.name,
+        googleId: userDataObj.sub,
+        coupon: ['coupon1'],
+        avatarUrl: userDataObj.picture
+      }
+      var newUser = new User(newUserObj)
+      await newUser.save()
+
+      const msg = {
+        from: `multiple-auth platform <mailer@${process.env.MAILGUN_DOMAIN}>`,
+        to: newUserObj.email,
+        subject: '[multiple-auth] Register with Google oauth 2.0 success !',
+        text: `Hi ${newUserObj.name}, you just register with ${newUserObj.email} from Google oauth 2.0 success !`
+      }
+      await mailer.sendMail(msg)
+
+      return done(null, newUser)
+    }
+  } catch (e) {
+    return done(e, false)
+  }
+}))
 // Step 3 of Oauth via passport -  serializeUser
 passport.serializeUser(function (user, done) {
   done(null, user)
@@ -131,6 +173,20 @@ router.get('/login/google', passport.authenticate('google', {
 }))
 router.get('/oauth/google/callback',
   passport.authenticate('google', {
+    failureRedirect: '/login'
+  }),
+  async function (req, res) {
+    req.session.isLogin = true
+    req.session.user = req.user
+    await req.session.save()
+    res.redirect('/')
+  })
+
+router.get('/login/twitter', passport.authenticate('twitter', {
+  scope: ['email', 'profile']
+}))
+router.get('/oauth/twitter/callback',
+  passport.authenticate('twitter', {
     failureRedirect: '/login'
   }),
   async function (req, res) {
