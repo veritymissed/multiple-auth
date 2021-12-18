@@ -50,8 +50,12 @@ var routes = require('./routes')
 app.use('/', routes)
 var oauth = require('./routes/oauth')
 app.use('/', oauth)
-var users = require('./routes/users')
-app.use('/api', users)
+var users = require('./users/users.controller.js')
+// app.use('/api', users)
+app.use('/users', users)
+var auth = require('./auth/auth.controller.js')
+// app.use('/api', users)
+app.use('/auth', auth)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
