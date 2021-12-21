@@ -1,9 +1,10 @@
 const { Sequelize } = require('sequelize');
+const configurations = require('./configurations');
 exports.postgresConnection = new Sequelize({
-  host: 'localhost',
+  host: configurations().database.host,
   dialect: 'postgres',
-  port: 5432,
-  username: 'postgres',
-  database: 'postgres',
-  password: 'postgrespassword',
+  port: configurations().database.port,
+  username: configurations().database.user_name,
+  database: configurations().database.database_name,
+  password: configurations().database.password,
 });

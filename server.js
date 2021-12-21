@@ -3,6 +3,7 @@ const createError = require('http-errors')
 const express = require('express')
 const path = require('path')
 const logger = require('morgan')
+const configurations = require('./configurations');
 
 const app = express()
 
@@ -72,7 +73,7 @@ var http = require('http')
 /**
  * Get port from environment and store in Express.
  */
-var port = normalizePort(process.env.APP_PORT || '8080')
+var port = normalizePort(configurations().app_port || '8080')
 app.set('port', port)
 
 /**
